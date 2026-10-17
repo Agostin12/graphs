@@ -1,23 +1,18 @@
-
-from typing import Generic, TypeVar
-
-T = TypeVar("T")
-
-class Cache(Generic[T]):
+class Cache[T]:
     def __init__(self, items: list[T]) -> None:
         self.items = items
 
-    def get_items(self) -> list[T]:
-        return self.items
 
-
-def combine[T](first: Cache[T], second: Cache[T]) -> Cache[T]:
-    return Cache(first.get_items() + second.get_items())
+def combine[T, U](
+    first: Cache[T],
+    second: Cache[U],
+) -> Cache[T | U]:
+    return Cache(first.items + second.items)
 
 
 def example() -> None:
     integers = Cache([1, 2, 3])
-    floats = Cache([4.5, 5.5])
+    strings = Cache(["a", "b", "c"])
 
-    result = combine(integers, floats)
+    result = combine(integers, strings)
     reveal_type(result)
